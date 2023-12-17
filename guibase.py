@@ -67,13 +67,17 @@ def guilogin(key, title, whensuccess, whenfaliure, lang='en', theme ='dark'):
             }
             signinresponse = (requests.post(f'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={key}', data= signinpaylod)).json()
             if 'error' in signinresponse:
+                
                 a = signinresponse
                 whenfaliure(a)
+                app.destroy()
             elif 'registered' in signinresponse:
                 a = "DONE"
                 whensuccess()
+                app.destroy()
             else:
                 a = f'UNEXPECTED ERROR - "{signinresponse}"'
+                app.destroy()
     sign = Button(app, command=sigin, text="Sign In", height=15, width=30,font=('Cairo Medium', 15), background='#1B4242', foreground = 'White').pack(pady=50, padx=50)
     app.mainloop()
 
@@ -115,7 +119,7 @@ def guiregister(key, title, whensuccess, whenfaliure, lang='en', theme = 'dark')
     elif theme == 'light':
         app.config(background='#EBF3E8')
         if lang == 'ar':
-            mainlabel = Label(app , text = "تـسـجـيـل الـدخـول" , font=('Cairo Medium', 30), bg ='#EBF3E8', fg='Black')
+            mainlabel = Label(app , text = "تـسـجـيـل الإشـتـراك" , font=('Cairo Medium', 30), bg ='#EBF3E8', fg='Black')
             mainlabel.pack(pady=37)
             emaillabel = Label(app, text = 'البـريد الإلكـتروني' , background='#EBF3E8', foreground= 'Black', font = ('Cairo Medium' , 12))
             emaillabel.pack(anchor = 'e' , padx = 30, pady = (0,3))
@@ -126,7 +130,7 @@ def guiregister(key, title, whensuccess, whenfaliure, lang='en', theme = 'dark')
             passwordentry = Entry(app, width=30, font = ('Cairo Medium', 12), background='#E4E4D0')
             passwordentry.pack(padx = (10,0))
         elif lang == 'en':
-            mainlabel = Label(app , text = "Login" , font=('Cairo Medium', 35), bg ='#EBF3E8', fg='Black')
+            mainlabel = Label(app , text = "Signup" , font=('Cairo Medium', 35), bg ='#EBF3E8', fg='Black')
             mainlabel.pack(pady=37)
             emaillabel = Label(app, text = 'Email' , background='#EBF3E8', foreground= 'black', font = ('Cairo Medium' , 12))
             emaillabel.pack(anchor = 'w' , padx = 30, pady = (0,3))
@@ -148,9 +152,12 @@ def guiregister(key, title, whensuccess, whenfaliure, lang='en', theme = 'dark')
             if 'error' in signinresponse:
                 a = signinresponse
                 whenfaliure(a)
+                app.destroy()
             elif 'email' in signinresponse:
                 whensuccess()
+                app.destroy()
             else:
                 a = f'UNEXPECTED ERROR - "{signinresponse}"'
+                app.destroy()
     sign = Button(app, command=sigin, text="Sign Up", height=15, width=30,font=('Cairo Medium', 15), background='#1B4242', foreground = 'White').pack(pady=50, padx=50)
     app.mainloop()
